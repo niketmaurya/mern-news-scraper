@@ -25,6 +25,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
+      setLoading(true);
 
       const res = await API.post(
         "/auth/login",
@@ -42,7 +43,12 @@ const Login = () => {
 
     } catch (error) {
 
-      alert(error.response.data.message);
+      alert(
+        error.response?.data?.message ||
+        "Login failed"
+      );
+    } finally {
+      setLoading(false);
     }
   };
 

@@ -6,6 +6,6 @@ const {
 
 const router = express.Router();
 
-router.get("/", scrapeStories);
+router.post("/", scrapeStories);
 
 module.exports = router;

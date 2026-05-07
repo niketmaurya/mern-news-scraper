@@ -16,26 +16,26 @@ const Navbar = () => {
 
   return (
 
-    <nav className="bg-white shadow-md px-6 py-4">
+    <nav className="bg-white shadow-md px-4 py-3 sm:px-6 sm:py-4">
 
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
+      <div className="max-w-7xl mx-auto flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 
         {/* Logo */}
 
         <Link
           to="/"
-          className="text-2xl font-bold text-blue-600"
+          className="text-xl sm:text-2xl font-bold text-blue-600"
         >
           HackerNews
         </Link>
 
         {/* Navigation */}
 
-        <div className="flex items-center gap-4">
+        <div className="w-full sm:w-auto flex flex-wrap items-center gap-2 sm:gap-4">
 
           <Link
             to="/"
-            className="text-gray-700 hover:text-blue-600"
+            className="text-sm sm:text-base text-gray-700 hover:text-blue-600"
           >
             Home
           </Link>
@@ -45,7 +45,7 @@ const Navbar = () => {
 
               <Link
                 to="/bookmarks"
-                className="text-gray-700 hover:text-blue-600"
+                className="text-sm sm:text-base text-gray-700 hover:text-blue-600"
               >
                 Bookmarks
               </Link>
@@ -57,7 +57,7 @@ const Navbar = () => {
 
               <>
 
-                <span className="text-sm font-medium text-gray-600">
+                <span className="text-sm font-medium text-gray-600 max-w-28 sm:max-w-none truncate">
 
                   {user.name}
 
@@ -65,7 +65,7 @@ const Navbar = () => {
 
                 <button
                   onClick={handleLogout}
-                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
+                  className="bg-red-500 hover:bg-red-600 text-white px-3 py-2 sm:px-4 rounded-lg text-sm sm:text-base"
                 >
                   Logout
                 </button>
@@ -78,14 +78,14 @@ const Navbar = () => {
 
                 <Link
                   to="/login"
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
+                  className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 sm:px-4 rounded-lg text-sm sm:text-base"
                 >
                   Login
                 </Link>
 
                 <Link
                   to="/register"
-                  className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg"
+                  className="bg-green-500 hover:bg-green-600 text-white px-3 py-2 sm:px-4 rounded-lg text-sm sm:text-base"
                 >
                   Register
                 </Link>

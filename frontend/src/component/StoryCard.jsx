@@ -59,9 +59,9 @@ const StoryCard = ({ story, refreshStories }) => {
 
     return (
 
-        <div className="bg-white p-5 rounded-2xl shadow-md">
+        <div className="bg-white p-4 sm:p-5 rounded-2xl shadow-md">
 
-            <h2 className="text-xl font-bold mb-2">
+            <h2 className="text-lg sm:text-xl font-bold mb-2 leading-snug">
                 {story.title}
             </h2>
 
@@ -69,7 +69,7 @@ const StoryCard = ({ story, refreshStories }) => {
                 href={story.url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-blue-600 break-all"
+                className="text-blue-600 break-all text-sm sm:text-base"
             >
                 {story.url}
             </a>
@@ -104,7 +104,7 @@ const StoryCard = ({ story, refreshStories }) => {
 
                     <button
                         onClick={handleBookmark}
-                        className={`mt-4 text-white px-4 py-2 rounded-lg cursor-pointer transition duration-200 ${
+                        className={`mt-4 text-white px-4 py-2 rounded-lg cursor-pointer transition duration-200 text-sm sm:text-base ${
                             bookmarked
                                 ? "bg-red-500 hover:bg-red-600"
                                 : "bg-blue-600 hover:bg-blue-700"

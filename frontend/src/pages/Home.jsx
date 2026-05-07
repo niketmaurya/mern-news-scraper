@@ -7,7 +7,7 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const limit = 5;
+  const limit = 10;
 
   const fetchStories = async (page = 1) => {
 

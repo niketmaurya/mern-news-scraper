@@ -1,6 +1,6 @@
 const scrapeHackerNews = require("../services/scraperService");
 
-const scrapeStories = async (req, res) => {
+const scrapeStories = async (_req, res) => {
   try {
     await scrapeHackerNews();
 

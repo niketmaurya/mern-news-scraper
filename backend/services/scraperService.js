@@ -13,7 +13,7 @@ const scrapeHackerNews = async () => {
     $(".athing").each((index, element) => {
       if (index >= 10) return false;
 
-      const title = $(element).find(".titleline a").text();
+      const title = $(element).find(".titleline a").first().text();
 
       const url = $(element).find(".titleline a").attr("href");
 

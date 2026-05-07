@@ -5,6 +5,7 @@ const connectDB = require('./config/db');
 const scrapeHackerNews = require("./services/scraperService");
 const storyRoutes = require('./routes/storyRoutes');
 const scraperRoutes = require('./routes/scraperRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use(express.json());
 
 app.use('/api/stories', storyRoutes);
 app.use('/api/scrape', scraperRoutes);
+app.use('/api/auth', authRoutes);
 
 app.get('/', (req, res) => {
     res.send('Hello World');

@@ -1,113 +1,126 @@
 import React, { useContext, useState } from 'react'
 import { AuthContext } from '../context/AuthContext';
 import API from '../api/axios';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
-    const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("");
 
-    const [password, setPassword] = useState("");
-    const [loading, setLoading] = useState(false);
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-    const { login } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
 
-    const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
 
-        e.preventDefault();
+    e.preventDefault();
 
-        try {
+    try {
 
-            const res = await API.post(
-                "/auth/login",
-                {
-                    email,
-                    password,
-                }
-            );
-
-            login(res.data);
-            setEmail("");
-            setPassword("");
-
-            alert("Login successful");
-
-        } catch (error) {
-
-            alert(error.response.data.message);
+      const res = await API.post(
+        "/auth/login",
+        {
+          email,
+          password,
         }
-    };
+      );
 
-    return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      login(res.data);
+      setEmail("");
+      setPassword("");
 
-            <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
+      alert("Login successful");
 
-                <h1 className="text-3xl font-bold text-center mb-6">
-                    Login
-                </h1>
+    } catch (error) {
 
-                <form
-                    onSubmit={handleSubmit}
-                    className="space-y-4"
-                >
+      alert(error.response.data.message);
+    }
+  };
 
-                    <div>
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
 
-                        <label className="block mb-1 font-medium">
-                            Email <span className='text-red-500'>*</span>
-                        </label>
+      <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
 
-                        <input
-                            type="email"
-                            placeholder="Enter email"
-                            value={email}
-                            onChange={(e) =>
-                                setEmail(e.target.value)
-                            }
-                            className="w-full border border-gray-300 rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-blue-500"
-                            required
-                        />
+        <h1 className="text-3xl font-bold text-center mb-6">
+          Login
+        </h1>
 
-                    </div>
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-4"
+        >
 
-                    <div>
+          <div>
 
-                        <label className="block mb-1 font-medium">
-                            Password <span className='text-red-500'>*</span>
-                        </label>
+            <label className="block mb-1 font-medium">
+              Email <span className='text-red-500'>*</span>
+            </label>
 
-                        <input
-                            type="password"
-                            placeholder="Enter password"
-                            value={password}
-                            onChange={(e) =>
-                                setPassword(e.target.value)
-                            }
-                            className="w-full border border-gray-300 rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-blue-500"
-                            required
-                        />
+            <input
+              type="email"
+              placeholder="Enter email"
+              value={email}
+              onChange={(e) =>
+                setEmail(e.target.value)
+              }
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
 
-                    </div>
+          </div>
 
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition duration-200 cursor-pointer"
-                    >
+          <div>
 
-                        {
-                            loading
-                                ? "Logging in..."
-                                : "Login"
-                        }
+            <label className="block mb-1 font-medium">
+              Password <span className='text-red-500'>*</span>
+            </label>
 
-                    </button>
+            <input
+              type="password"
+              placeholder="Enter password"
+              value={password}
+              onChange={(e) =>
+                setPassword(e.target.value)
+              }
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
 
-                </form>
+          </div>
 
-            </div>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition duration-200 cursor-pointer"
+          >
 
-        </div>
-    );
+            {
+              loading
+                ? "Logging in..."
+                : "Login"
+            }
+
+          </button>
+
+        </form>
+
+        <p className="text-center text-sm mt-4">
+
+          Don't have an account?{" "}
+
+          <Link
+            to="/register"
+            className="text-blue-600 font-medium hover:underline"
+          >
+            Create Account
+          </Link>
+
+        </p>
+      </div>
+
+    </div>
+  );
 
 }
 

@@ -23,7 +23,7 @@ const Navbar = () => {
         {/* Logo */}
 
         <Link
-          to="/"
+          to={user ? "/home" : "/login"}
           className="text-xl sm:text-2xl font-bold text-blue-600"
         >
           HackerNews
@@ -34,7 +34,7 @@ const Navbar = () => {
         <div className="w-full sm:w-auto flex flex-wrap items-center gap-2 sm:gap-4">
 
           <Link
-            to="/"
+            to="/home"
             className="text-sm sm:text-base text-gray-700 hover:text-blue-600"
           >
             Home

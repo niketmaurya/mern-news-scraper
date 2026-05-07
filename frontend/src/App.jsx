@@ -3,28 +3,30 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Bookmarks from "./pages/Bookmarks";
+import Navbar from "./component/Navbar";
 
 
 function App() {
 
-    return (
+  return (
 
-        <BrowserRouter>
+    <BrowserRouter>
 
-            <Routes>
+      <Navbar />
+      <Routes>
 
-                <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home />} />
 
-                <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login />} />
 
-                <Route path="/register" element={<Register />} />
+        <Route path="/register" element={<Register />} />
 
-                <Route path="/bookmarks" element={<Bookmarks/>} />
+        <Route path="/bookmarks" element={<Bookmarks />} />
 
-            </Routes>
+      </Routes>
 
-        </BrowserRouter>
-    );
+    </BrowserRouter>
+  );
 }
 
 export default App;

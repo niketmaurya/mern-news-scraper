@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../context/AuthContext';
 import API from '../api/axios';
 import { Link, useNavigate } from 'react-router-dom';
@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 const Register = () => {
   const navigate = useNavigate();
 
-  const { login } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   const [name, setName] = useState("");
 
@@ -15,6 +15,14 @@ const Register = () => {
   const [password, setPassword] = useState("");
 
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+
+    if (user) {
+      navigate("/");
+    }
+  
+  }, [user, navigate]);
 
   const handleSubmit = async (e) => {
 
@@ -33,15 +41,13 @@ const Register = () => {
         }
       );
 
-      login(res.data);
-
       setName("");
       setEmail("");
       setPassword("");
 
       alert("Registration successful");
 
-      navigate("/");
+      navigate("/login");
 
     } catch (error) {
 

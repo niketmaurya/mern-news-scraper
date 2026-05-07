@@ -1,15 +1,24 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../context/AuthContext';
 import API from '../api/axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
 
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { login } = useContext(AuthContext);
+  const { user, login } = useContext(AuthContext);
+
+  useEffect(() => {
+
+    if (user) {
+        navigate("/");
+    }
+
+}, [user, navigate]);
 
   const handleSubmit = async (e) => {
 

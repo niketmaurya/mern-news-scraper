@@ -4,20 +4,24 @@ import StoryCard from '../component/StoryCard';
 
 const Home = () => {
   const [stories, setStories] = useState([]);
-
   const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const limit = 5;
 
-  const fetchStories = async () => {
+  const fetchStories = async (page = 1) => {
 
     try {
 
       setLoading(true);
 
       const res = await API.get(
-        "/stories?page=1&limit=5"
+        `/stories?page=${page}&limit=${limit}`
       );
 
       setStories(res.data.stories);
+      setCurrentPage(res.data.currentPage || page);
+      setTotalPages(res.data.totalPages || 1);
 
     } catch (error) {
 
@@ -31,9 +35,17 @@ const Home = () => {
 
   useEffect(() => {
 
-    fetchStories();
+    fetchStories(currentPage);
 
-  }, []);
+  }, [currentPage]);
+
+  const handlePrevious = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+
+  const handleNext = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  };
 
   return (
 
@@ -58,7 +70,7 @@ const Home = () => {
                 <StoryCard
                   key={story._id}
                   story={story}
-                  refreshStories={fetchStories}
+                  refreshStories={() => fetchStories(currentPage)}
                 />
               ))
             }
@@ -66,6 +78,28 @@ const Home = () => {
           </div>
         )
       }
+
+      <div className="mt-6 flex items-center justify-center gap-3">
+        <button
+          onClick={handlePrevious}
+          disabled={currentPage === 1 || loading}
+          className="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Previous
+        </button>
+
+        <span className="text-sm sm:text-base text-gray-700">
+          Page {currentPage} of {totalPages}
+        </span>
+
+        <button
+          onClick={handleNext}
+          disabled={currentPage === totalPages || loading}
+          className="px-4 py-2 rounded-lg bg-blue-600 text-white disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Next
+        </button>
+      </div>
 
     </div>
   );

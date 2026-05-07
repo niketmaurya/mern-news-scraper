@@ -33,6 +33,28 @@ function AuthProvider({ children }) {
         setUser(null);
     };
 
+    const updateBookmarks = (bookmarks = []) => {
+
+        setUser((prevUser) => {
+
+            if (!prevUser) {
+                return prevUser;
+            }
+
+            const updatedUser = {
+                ...prevUser,
+                bookmarks,
+            };
+
+            localStorage.setItem(
+                "user",
+                JSON.stringify(updatedUser)
+            );
+
+            return updatedUser;
+        });
+    };
+
     return (
 
         <AuthContext.Provider
@@ -40,6 +62,7 @@ function AuthProvider({ children }) {
                 user,
                 login,
                 logout,
+                updateBookmarks,
             }}
         >
             {children}

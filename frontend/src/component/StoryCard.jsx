@@ -1,96 +1,128 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import API from "../api/axios";
-
 import { AuthContext } from "../context/AuthContext";
 
 const StoryCard = ({ story, refreshStories }) => {
-  const { user } = useContext(AuthContext);
 
-  const handleBookmark = async () => {
+    const { user, updateBookmarks } = useContext(AuthContext);
 
-    try {
+    const [bookmarked, setBookmarked] = useState(false);
 
-      await API.post(
-        `/stories/${story._id}/bookmark`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
+    useEffect(() => {
+
+        const isBookmarked = user?.bookmarks?.some(
+            (id) => id?.toString() === story._id?.toString()
+        );
+
+        setBookmarked(Boolean(isBookmarked));
+
+    }, [user, story._id]);
+
+    const handleBookmark = async () => {
+
+        if (!user?.token) {
+            return alert("Please login first");
         }
-      );
 
-      alert("Bookmark updated");
+        try {
 
-      if (refreshStories) {
-        refreshStories();
-      }
+            const res = await API.post(
+                `/stories/${story._id}/bookmark`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${user.token}`,
+                    },
+                }
+            );
 
-    } catch (error) {
+            if (res.data?.bookmarks) {
+                updateBookmarks(
+                    res.data.bookmarks.map((id) => id.toString())
+                );
+            } else {
+                setBookmarked((prev) => !prev);
+            }
 
-      alert(
-        error.response?.data?.message ||
-        "Error bookmarking story"
-      );
-    }
-  };
+            if (refreshStories) {
+                refreshStories();
+            }
 
-  return (
+        } catch (error) {
 
-    <div className="bg-white p-5 rounded-2xl shadow-md">
+            alert(
+                error.response?.data?.message ||
+                "Error bookmarking story"
+            );
+        }
+    };
 
-      <h2 className="text-xl font-bold mb-2">
-        {story.title}
-      </h2>
+    return (
 
-      <a
-        href={story.url}
-        target="_blank"
-        className="text-blue-600 break-all"
-      >
-        {story.url}
-      </a>
+        <div className="bg-white p-5 rounded-2xl shadow-md">
 
-      <div className="mt-3 text-sm text-gray-600 space-y-1">
+            <h2 className="text-xl font-bold mb-2">
+                {story.title}
+            </h2>
 
-        <p>
-          <span className="font-semibold">
-            Points:
-          </span>{" "}
-          {story.points}
-        </p>
+            <a
+                href={story.url}
+                target="_blank"
+                rel="noreferrer"
+                className="text-blue-600 break-all"
+            >
+                {story.url}
+            </a>
 
-        <p>
-          <span className="font-semibold">
-            Author:
-          </span>{" "}
-          {story.author}
-        </p>
+            <div className="mt-3 text-sm text-gray-600 space-y-1">
 
-        <p>
-          <span className="font-semibold">
-            Posted:
-          </span>{" "}
-          {story.postedAt}
-        </p>
+                <p>
+                    <span className="font-semibold">
+                        Points:
+                    </span>{" "}
+                    {story.points}
+                </p>
 
-      </div>
+                <p>
+                    <span className="font-semibold">
+                        Author:
+                    </span>{" "}
+                    {story.author}
+                </p>
 
-      {
-        user && (
+                <p>
+                    <span className="font-semibold">
+                        Posted:
+                    </span>{" "}
+                    {story.postedAt}
+                </p>
 
-          <button
-            onClick={handleBookmark}
-            className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
-          >
-            Bookmark
-          </button>
-        )
-      }
+            </div>
 
-    </div>
-  );
-}
+            {
+                user && (
 
+                    <button
+                        onClick={handleBookmark}
+                        className={`mt-4 text-white px-4 py-2 rounded-lg cursor-pointer transition duration-200 ${
+                            bookmarked
+                                ? "bg-red-500 hover:bg-red-600"
+                                : "bg-blue-600 hover:bg-blue-700"
+                        }`}
+                    >
+
+                        {
+                            bookmarked
+                                ? "Remove Bookmark"
+                                : "Bookmark"
+                        }
+
+                    </button>
+                )
+            }
+
+        </div>
+    );
+};
 
 export default StoryCard;

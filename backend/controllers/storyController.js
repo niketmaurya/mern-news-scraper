@@ -2,14 +2,34 @@ const Story = require("../models/Story");
 const User = require("../models/User");
 
 const getStories = async (req, res) => {
-  try {
-    const stories = await Story.find().sort({ points: -1 });
 
-    res.status(200).json(stories);
+  try {
+
+      const page = Number(req.query.page) || 1;
+
+      const limit = Number(req.query.limit) || 10;
+
+      const skip = (page - 1) * limit;
+
+      const totalStories = await Story.countDocuments();
+
+      const stories = await Story.find()
+          .sort({ points: -1 })
+          .skip(skip)
+          .limit(limit);
+
+      res.status(200).json({
+          totalStories,
+          currentPage: page,
+          totalPages: Math.ceil(totalStories / limit),
+          stories,
+      });
+
   } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
+
+      res.status(500).json({
+          message: error.message,
+      });
   }
 };
 
